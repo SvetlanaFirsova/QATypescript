@@ -22,6 +22,11 @@ class DeliveryCost {
     }
 
     private calculateCost(): number {
+        //Distance validation
+        if (this.distanceToTheDestinations <= 0) {
+        throw new Error('Distance must be greater than 0');
+    }
+
         let cost = 0;
         
         //Calculate the distanse
@@ -36,13 +41,21 @@ class DeliveryCost {
         }
 
         //Calculate the size
-        cost += this.packageSize === 'large' ? 200 : 100;
+        //cost += this.packageSize === 'large' ? 200 : 100;
+        if (this.packageSize === 'large') {
+            cost += 200;
+        } else if (this.packageSize === 'small') {
+            cost += 100;
+        } else {
+            throw new Error(`Unsupported package size: ${this.packageSize}`);
+        }
 
         //Calculate the fragility
+
+        if (this.fragility && this.distanceToTheDestinations > 30) {
+            throw new Error("Fragile packages cannot be delivered over 30 km");
+        }
         if (this.fragility) {
-            if (this.distanceToTheDestinations > 30) {
-                throw new Error('Fragile packages cannot be delivered over distances greater than 30km');
-            }
             cost += 300;
         }
 
@@ -59,9 +72,12 @@ class DeliveryCost {
             case 'increased':
                 coefficient = 1.2;
                 break;
+            case 'normal':
+                coefficient = 1;
+                break;
         }
 
-        cost += coefficient;
+        cost *= coefficient;
 
         //Calculate the final cost based on the minimum unit price
         return cost < 400 ? 400 : cost
@@ -78,5 +94,5 @@ class DeliveryCost {
     }
 }
 
-const myDeliveryCost = new DeliveryCost(1, 'small', false, 'normal');
+const myDeliveryCost = new DeliveryCost(30, 'large', true, 'very high');
 myDeliveryCost.finalDeliveryCost();
