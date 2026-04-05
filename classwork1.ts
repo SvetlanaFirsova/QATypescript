@@ -1,4 +1,5 @@
 function addName(name: string): string {
+    console.log(addName);
     return "Hello "+ name;
 };
 
