@@ -1,6 +1,6 @@
-import { Pet } from '../homework3and4and5/pet';
-import { Category } from '../homework3and4and5/category';
-import { Tag } from '../homework3and4and5/tag';
+import { Pet } from './pet';
+import { Category } from './Category';
+import { Tag } from './Tag';
 
 //DTO Pet class
 export class PetDTO implements Pet {

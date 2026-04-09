@@ -1,17 +1,10 @@
-import { test, expect } from '@playwright/test';
-import { PetDTO } from '../tests/petDTO';
 
-//Base interface for all entities (optional, for better flexibility)
-interface BaseEntity {
-  id?: number;
-}
-
-export class ApiResponse<T extends BaseEntity> {
+export class ApiResponse<T> {
 //Public fields to allow direct access when needed
-  public data: T | null;
+  public data: T;
   public statusCode: number;
 
-  constructor(data: T | null, statusCode: number) {
+  constructor(data: T, statusCode: number) {
     this.data = data;
     this.statusCode = statusCode;
   }
@@ -39,22 +32,25 @@ export class ApiResponse<T extends BaseEntity> {
     }
   }
 
-  /**
-   * Prints the summary to the console.
-   * Public method for quick debugging.
-   */
-  public printSummary(): void {
-    if (this.isSuccess()) {
-      console.log(`Success (${this.getStatusMessage()}):`, JSON.stringify(this.data, null, 2));
-    } else {
-      console.error(`Error (${this.getStatusMessage()}): Operation failed.`);
-    }
+/**
+ * Prints the summary to the console and returns the data.
+ * Throws an error if the operation was not successful.
+ * @returns {T} The response data.
+ */
+public printSummary(): T {
+  if (this.isSuccess()) {
+    console.log(`Success (${this.getStatusMessage()}):`, JSON.stringify(this.data, null, 2));
+    return this.data; 
+  } else {
+    const errorMessage = `Error (${this.getStatusMessage()}): Operation failed.`;
+    throw new Error(errorMessage);
   }
+}
 
   /**
    * Static method to quickly create a successful response.
    */
-  public static ok<U extends BaseEntity>(data: U): ApiResponse<U> {
+  public static ok<U>(data: U): ApiResponse<U> {
     return new ApiResponse(data, 200);
   }
 }

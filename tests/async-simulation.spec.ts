@@ -3,6 +3,24 @@ import { PetDTO } from './petDTO';
 import { OrderDTO } from './orderDTO';
 import { fetchData } from './fetchData';
 
+/**
+ * Helper function to handle the "odd second" error.
+ * It attempts to re-execute fetchData if an error occurs.
+ */
+async function fetchDataWithRetry<T>(data: any): Promise<T> {
+  try {
+    return await fetchData<T>(data);
+  } catch (error: any) {
+    // Якщо помилка каже про непарну секунду — чекаємо 1 сек і пробуємо ще раз
+    if (error.message.includes("odd")) {
+      console.log("Detected odd second, waiting 1 second...");
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      return await fetchData<T>(data); // Друга спроба (вже буде парна секунда)
+    }
+    throw error; // Якщо помилка інша — "прокидаємо" її далі
+  }
+}
+
 test('Homework_5 - Async Simulation', async () => {
   //--- PET ---
   const myDog = new PetDTO({ id: 28, name: "Gosha", photoUrls: [] });

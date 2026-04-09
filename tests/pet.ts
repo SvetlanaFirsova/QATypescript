@@ -1,5 +1,5 @@
-import { Category } from './category';
-import { Tag } from './tag';
+import { Category } from './Category';
+import { Tag } from './Tag';
 
 // Main interface for the Pet entity
 export interface Pet {

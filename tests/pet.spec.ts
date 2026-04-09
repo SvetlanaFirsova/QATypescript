@@ -1,5 +1,5 @@
 import { test, expect } from '@playwright/test';
-import { ApiResponse } from '../homework3and4and5/apiresponse';
+import { ApiResponse } from './apiResponse';
 import { PetDTO } from './petDTO';
 
 test.describe('Petstore API - Pet Operations', () => {
@@ -46,22 +46,32 @@ test.describe('Petstore API - Pet Operations', () => {
     });
 
     test('Should handle "Pet Not Found" error', async ({ request }) => {
-        //Try to get a pet using a non-existent ID
-        const nonExistentId = 999999999;
-        
-        // IMPORTANT: Use only backticks ` ` (the key below Esc) for string interpolation
-        const rawResponse = await request.get(`https://petstore.swagger.io/v2/pet/${nonExistentId}`, {
-        // Add SSL certificate error ignoring directly to the request:
-        ignoreHTTPSErrors: true});
-
-        //Use ApiResponse even for error handling
-        const errorResponse = new ApiResponse<any>(null, rawResponse.status());
-        
-        //Print the error summary to the console
-        errorResponse.printSummary();
-
-        //Verify that the request was NOT successful
-        expect(errorResponse.isSuccess()).toBeFalsy();
-        expect(errorResponse.statusCode).toBe(404);
+    // 1. Declare a constant for the non-existent ID
+    const nonExistentId = 999999999;
+    
+    const rawResponse = await request.get(`https://petstore.swagger.io/v2/pet/${nonExistentId}`, {
+        ignoreHTTPSErrors: true
     });
+
+    const errorResponse = new ApiResponse<any>(null, rawResponse.status());
+    
+    try {
+        // Use the method that is now expected to throw an Error for non-success statuses
+        errorResponse.printSummary();
+        
+        // Ensure the test fails if no error was thrown by printSummary
+        throw new Error("Test failed: printSummary should have thrown an error for a 404/200 null response");
+        
+    } catch (error: any) {
+        // Verify that the error was caught as expected
+        console.log("Caught expected error:", error.message);
+        
+        // Assert that the request was not successful
+        expect(errorResponse.isSuccess()).toBeFalsy();
+        
+        // If the server returns 200 for this specific request, we assert 200.
+        // Adjust to 404 if the API behavior is corrected in the future.
+        expect(errorResponse.statusCode).toBe(404); 
+    }
+});
 });

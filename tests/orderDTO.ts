@@ -1,4 +1,4 @@
-import { Order } from '../homework3and4and5/order';
+import { Order } from './order';
 
 //DTO Order class
 export class OrderDTO implements Order {

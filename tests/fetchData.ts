@@ -5,19 +5,19 @@
  */
 export async function fetchData<T>(data: T): Promise<T> {
   console.log("Fetching data from server...");
-  return new Promise((resolve, reject) => {
-    //Simulate a delay of 1 second (1000ms)
-    setTimeout(() => {
-      const currentSeconds = new Date().getSeconds();
-      console.log(`Current seconds: ${currentSeconds}`);
-      //Check if the current seconds value is even
-      if (currentSeconds % 2 === 0) {
-        //Success: Return the provided data
-        resolve(data);
-      } else {
-        //Failure: Throw a descriptive error
-        reject(new Error(`Server Error: Request failed because the current second (${currentSeconds}) is odd.`));
-      }
-    }, 1000);
-  });
+
+  // Wait for the promise to resolve inside the async function (delay)
+  await new Promise((resolve) => setTimeout(resolve, 1000));
+
+  const currentSeconds = new Date().getSeconds();
+  console.log(`Current seconds: ${currentSeconds}`);
+
+  // Check if the current second is even
+  if (currentSeconds % 2 === 0) {
+    // Success: simply return the data
+    return data;
+  } else {
+    // Failure: throw an Error (the async function will automatically wrap this in a rejection)
+    throw new Error(`Server Error: Request failed because the current second (${currentSeconds}) is odd.`);
+  }
 }
