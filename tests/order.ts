@@ -1,4 +1,4 @@
-interface Order {
+export interface Order {
     id?: number;
     petId?: number;
     quantity?: number;

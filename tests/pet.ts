@@ -1,5 +1,5 @@
-import { Category } from './category';
-import { Tag } from './tag';
+import { Category } from './Category';
+import { Tag } from './Tag';
 
 // Main interface for the Pet entity
 export interface Pet {
@@ -11,7 +11,7 @@ export interface Pet {
     status?: 'available' | 'pending' | 'sold'; //Status can only be one of these specific values
 }
 
-const order: Pet = {
+const myPet: Pet = {
     id: 22,
     category: { id: 1, name: "Dogs" },
     name: "Gosha",
