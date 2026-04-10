@@ -7,7 +7,7 @@ import { fetchData } from './fetchData';
  * Helper function to handle the "odd second" error.
  * It attempts to re-execute fetchData if an error occurs.
  */
-async function fetchDataWithRetry<T>(data: any): Promise<T> {
+async function fetchDataWithRetry<T>(data:T): Promise<T> {
   try {
     return await fetchData<T>(data);
   } catch (error: any) {
