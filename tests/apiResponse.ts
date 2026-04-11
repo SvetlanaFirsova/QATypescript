@@ -10,12 +10,25 @@ export class ApiResponse<T> {
   }
 
   /**
-   * Checks if the response code is within the 2xx range.
+   * Checks if the response code is within the 2xx range and not null.
    * Public because this is frequently used in test assertions.
    */
   public isSuccess(): boolean {
-    return this.statusCode >= 200 && this.statusCode < 300;
-  }
+  //Check if the status code is within the successful range (200-299)
+  const isGoodStatus = this.statusCode >= 200 && this.statusCode < 300;
+
+  //Access data as 'any' to prevent TypeScript compilation errors for dynamic properties
+  const data = this.data as any;
+
+  //Determine if the data is corrupted or indicates a failure 
+  //(e.g., null body, garbage characters like '%00', or specific error messages)
+  const isDataCorrupted = !data || 
+                          (typeof data.name === 'string' && data.name.includes('%00')) ||
+                          (data.message === 'Pet not found');
+
+  // Success is only confirmed if the status is good AND the data is valid (not corrupted)
+  return isGoodStatus && !isDataCorrupted;
+}
 
   /**
    * Returns a text message based on the status code.

@@ -1,6 +1,6 @@
-import { Pet } from './pet';
-import { Category } from './Category';
-import { Tag } from './Tag';
+import type { Pet } from './pet.js';
+import type { Category } from './category.js';
+import type { Tag } from './tag.js';
 
 //DTO Pet class
 export class PetDTO implements Pet {
@@ -12,11 +12,14 @@ export class PetDTO implements Pet {
   status?: 'available' | 'pending' | 'sold'; //Status can only be one of these specific values
 
   constructor(data: Pet) {
-    this.id = data.id;
-    this.category = data.category;
+    // Check if property exists in data before assigning to avoid 'undefined'
+    if ('id' in data) this.id = data.id;
+    if ('category' in data) this.category = data.category;
+    
     this.name = data.name;
     this.photoUrls = data.photoUrls || [];
-    this.tags = data.tags;
-    this.status = data.status;
+    
+    if ('tags' in data) this.tags = data.tags;
+    if ('status' in data) this.status = data.status;
   }
 }

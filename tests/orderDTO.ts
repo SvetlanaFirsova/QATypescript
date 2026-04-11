@@ -1,4 +1,4 @@
-import { Order } from './order';
+import type { Order } from './order.js';
 
 //DTO Order class
 export class OrderDTO implements Order {
@@ -10,11 +10,11 @@ export class OrderDTO implements Order {
   complete?: boolean;
 
   constructor(data: Order) {
-    this.id = data.id;
-    this.petId = data.petId;
-    this.quantity = data.quantity;
-    this.shipDate = data.shipDate;
-    this.status = data.status;
-    this.complete = data.complete ?? false;
+    if ('id' in data) this.id = data.id;
+    if ('petId' in data) this.petId = data.petId;
+    if ('quantity' in data) this.quantity = data.quantity;
+    if ('shipDate' in data) this.shipDate = data.shipDate;
+    if ('status' in data) this.status = data.status;
+    if ('complete' in data) this.complete = data.complete ?? false;
   }
 }
