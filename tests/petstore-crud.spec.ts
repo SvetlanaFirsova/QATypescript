@@ -8,7 +8,7 @@ test('Homework 6 - PetStore CRUD Flow', async ({ request }) => {
   const apiClient = new ApiClient(request, 'https://petstore.swagger.io/v2');
   const petStore = new PetStoreClient(apiClient);
   
-  // Використовуємо велике випадкове число
+  //Using big random number
   const petId = Math.floor(Math.random() * 900000) + 100000;
   const myPet = new PetDTO({
     id: petId,
@@ -24,7 +24,7 @@ test('Homework 6 - PetStore CRUD Flow', async ({ request }) => {
   //Use id that was returne by server
   const actualId = createdPet.id || petId; 
 
-  //READ (з невеликою затримкою 1 сек)
+  //READ (1 sec)
   console.log('--- Reading Pet ---');
   await new Promise(res => setTimeout(res, 1000)); 
   
@@ -46,7 +46,6 @@ test('Homework 6 - PetStore CRUD Flow', async ({ request }) => {
   console.log('--- Verifying Deletion ---');
   
   let isDeleted = false;
-  // Спробуємо 5 разів з інтервалом в 1 секунду дочекатися зникнення
   for (let i = 0; i < 5; i++) {
     try {
       await apiClient.get(`/pet/${actualId}`);
@@ -62,5 +61,5 @@ test('Homework 6 - PetStore CRUD Flow', async ({ request }) => {
 
   expect(isDeleted).toBe(true);
   console.log('Success: Pet is officially gone.');
-  
+
 });
