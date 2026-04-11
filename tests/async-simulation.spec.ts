@@ -1,7 +1,7 @@
 import { test } from '@playwright/test';
-import { PetDTO } from './petDTO';
-import { OrderDTO } from './orderDTO';
-import { fetchData } from './fetchData';
+import { PetDTO } from './petDTO.js';
+import { OrderDTO } from './orderDTO.js';
+import { fetchData } from './fetchData.js';
 
 /**
  * Helper function to handle the "odd second" error.
