@@ -1,8 +1,8 @@
 export class ApiResponse<T> {
-  public data: T | null;
+  public data: T;
   public statusCode: number;
 
-  constructor(data: T | null, statusCode: number) {
+  constructor(data: T, statusCode: number) {
     this.data = data;
     this.statusCode = statusCode;
   }
