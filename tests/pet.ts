@@ -1,5 +1,5 @@
-import { Category } from './Category';
-import { Tag } from './Tag';
+import type { Category } from './category.js';
+import type { Tag } from './tag.js';
 
 // Main interface for the Pet entity
 export interface Pet {

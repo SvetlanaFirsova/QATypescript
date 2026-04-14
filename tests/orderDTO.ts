@@ -1,4 +1,4 @@
-import { Order } from './order';
+import type { Order } from './order.js';
 
 //DTO Order class
 export class OrderDTO implements Order {
@@ -7,14 +7,16 @@ export class OrderDTO implements Order {
   quantity?: number;
   shipDate?: string;
   status?: 'placed' | 'approved' | 'delivered';
-  complete?: boolean;
+  complete: boolean = false; //Set default value directly
 
-  constructor(data: Order) {
-    this.id = data.id;
-    this.petId = data.petId;
-    this.quantity = data.quantity;
-    this.shipDate = data.shipDate;
-    this.status = data.status;
-    this.complete = data.complete ?? false;
+  constructor(data: Partial<Order>) {
+    /**
+     * Object.assign copies all enumerable own properties from 
+     * the 'data' object to 'this' (the class instance).
+     * This eliminates the need for manual 'if' checks for every field.
+     */
+    Object.assign(this, data);
+
+    //If 'complete' wasn't provided in data, it stays 'false' as defined above
   }
 }
