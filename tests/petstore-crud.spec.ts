@@ -42,7 +42,7 @@ test('Homework 6 - PetStore CRUD Flow', async ({ request }) => {
   console.log('--- Deleting Pet ---');
   await petStore.deletePet(actualId);
 
-  // 5.VERIFY DELETION
+  //VERIFY DELETION
   console.log('--- Verifying Deletion ---');
   
   let isDeleted = false;

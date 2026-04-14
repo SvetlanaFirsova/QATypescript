@@ -7,14 +7,16 @@ export class OrderDTO implements Order {
   quantity?: number;
   shipDate?: string;
   status?: 'placed' | 'approved' | 'delivered';
-  complete?: boolean;
+  complete: boolean = false; //Set default value directly
 
-  constructor(data: Order) {
-    if ('id' in data) this.id = data.id;
-    if ('petId' in data) this.petId = data.petId;
-    if ('quantity' in data) this.quantity = data.quantity;
-    if ('shipDate' in data) this.shipDate = data.shipDate;
-    if ('status' in data) this.status = data.status;
-    if ('complete' in data) this.complete = data.complete ?? false;
+  constructor(data: Partial<Order>) {
+    /**
+     * Object.assign copies all enumerable own properties from 
+     * the 'data' object to 'this' (the class instance).
+     * This eliminates the need for manual 'if' checks for every field.
+     */
+    Object.assign(this, data);
+
+    //If 'complete' wasn't provided in data, it stays 'false' as defined above
   }
 }

@@ -12,7 +12,7 @@ export class PetDTO implements Pet {
   status?: 'available' | 'pending' | 'sold'; //Status can only be one of these specific values
 
   constructor(data: Pet) {
-    // Check if property exists in data before assigning to avoid 'undefined'
+    //Check if property exists in data before assigning to avoid 'undefined'
     if ('id' in data) this.id = data.id;
     if ('category' in data) this.category = data.category;
     
